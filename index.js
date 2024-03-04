@@ -4,12 +4,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
 const Note = require('./models/note')
-const generateId = () => {
-    const maxId = notes.length > 0
-        ? Math.max(...notes.map(n => n.id))
-        : 0
-    return maxId + 1
-}
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
     console.log('Path:  ', request.path)
@@ -17,28 +11,32 @@ const requestLogger = (request, response, next) => {
     console.log('---')
     next()
 }
-
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+    next(error)
+}
 app.use(cors())
 app.use(express.json())
 app.use(express.static('dist'))
 app.use(requestLogger)
+app.use(errorHandler)
 
 app.get('/api/notes', (request, response) => {
     Note.find({}).then(notes => {
         response.json(notes)
     })
 })
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
     Note.findById(request.params.id).then(note => {
         if (note) {
             response.json(note)
         } else {
             response.status(404).end()
         }
-    }).catch(error => {
-        console.log(error)
-        response.status(400).send({ error: 'malformatted id' })
-    })
+    }).catch(error => next(error))
 
 })
 app.post('/api/notes', (request, response) => {
