@@ -2,13 +2,14 @@
   "name": "backend",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "index_test.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "sudo rm -rf dist && cd /home/quechobot/fsOpen/tests-github/part2 && npm run build && cp -r dist /home/quechobot/fsOpen/fs-open-render-test",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "test": "jest --verbose"
   },
   "author": "quechobot",
   "license": "MIT",
@@ -19,6 +20,10 @@
     "mongoose": "^8.2.0"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.0.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
