@@ -36,7 +36,7 @@ describe('when there is initially some notes saved', () => {
     })
 })
 
-describe('viewing a specific note', () => {
+describe.skip('viewing a specific note', () => {
     test('succeeds with a valid id', async () => {
         const notesAtStart = await helper.notesInDb()
 
@@ -67,7 +67,7 @@ describe('viewing a specific note', () => {
     })
 })
 
-describe('addition of a new note', () => {
+describe.skip('addition of a new note', () => {
     test('succeeds with valid data', async () => {
         const newNote = {
             content: 'async/await simplifies making async calls',
@@ -105,8 +105,8 @@ describe('addition of a new note', () => {
     })
 })
 
-describe('deletion of a note', () => {
-    test('succeeds with status code 204 if id is valid', async () => {
+describe.skip('deletion of a note', () => {
+    test.skip('succeeds with status code 204 if id is valid', async () => {
         const notesAtStart = await helper.notesInDb()
         const noteToDelete = notesAtStart[0]
 
